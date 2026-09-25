@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Natalia</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+
+        .card-container {
+            background: #1e1e1e;
+            padding: 40px;
+            width: 100%;
+            max-width: 750px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            position: relative;
+            z-index: 10;
+            box-sizing: border-box;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            color: #ffcc00;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        /* Animación del perrito */
+        .dog-container {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 40px;
+            display: none;
+        }
+
+        .dog-animation {
+            display: inline-block;
+            animation: walkDog 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes walkDog {
+            0% { transform: translateX(-20px) rotate(-5deg); }
+            100% { transform: translateX(20px) rotate(5deg); }
+        }
+
+        /* Botones de acción */
+        .options-box {
+            display: none;
+            margin-top: 30px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .btn-option {
+            display: block;
+            width: 100%;
+            background: #ffcc00;
+            color: #121212;
+            padding: 15px;
+            margin: 12px 0;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            border-radius: 5px;
+            transition: 0.3s;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .btn-option:hover {
+            background: #e6b800;
+            transform: scale(1.02);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .petal {
+            position: fixed;
+            top: -10vh;
+            font-size: 20px;
+            user-select: none;
+            z-index: 99;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <h1 class="title">Hey, Nata. Check this out.</h1>
+        
+        <div class="content-box">
+            <p id="typed-text-1"></p>
+        </div>
+
+        <!-- Perrito animado entregando flores -->
+        <div class="dog-container" id="dog-box">
+            <div class="dog-animation">🐕‍🦺🐾🌹</div>
+        </div>
+
+        <div class="content-box">
+            <p id="typed-text-2"></p>
+        </div>
+
+        <!-- Botones directos a tu WhatsApp -->
+        <div class="options-box" id="options-box">
+            <p style="text-align: center; color: #ffcc00; font-weight: bold;">Estas flores digitales son para ti. ¿Qué opinas?</p>
+            
+            <a href="https://wa.me/573144365569?text=Hola%20Marty!%20Acepto%20el%20café,%20pero%20primero%20muéstrame%20quién%20eres%20en%20Facebook%20👀" class="btn-option" target="_blank">
+                Opción 1: Acepto el café, pero muéstrame tu Facebook 👀
+            </a>
+            
+            <a href="https://wa.me/573144365569?text=Hola%20Marty!%20Acepto%20el%20café,%20pero%20ahora%20te%20toca%20superarme%20el%20reto%20a%20ti%20🧩" class="btn-option" target="_blank">
+                Opción 2: Acepto el café, pero ahora te toca superarme el reto a ti 🧩
+            </a>
+            
+            <a href="https://wa.me/573144365569?text=Hola%20Marty!%20Me%20interesa.%20Hablemos%20a%20ver%20qué%20tal%20☕" class="btn-option" target="_blank">
+                Opción 3: Me interesa. Escríbeme y hablemos en inglés o francés a ver qué tal ☕
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const text1 = `Te he visto por la zona de Innovo Plaza y la verdad es imposible no notar tu vibra. You look super cool, have an amazing style, and honestly, c'est incroyable de te voir passer.\n\nTu outfit siempre destaca y tienes una energía brutal. Quería hacer algo diferente para saludarte, un toque fuera de lo común.`;
+
+        const text2 = `Como me gusta hacer las cosas con nivel, construí esto solo para ti. Un tipo que sabe lo que quiere no manda mensajes aburridos, crea experiencias.\n\n¿Un café o qué? Elige tu jugada:`;
+
+        const VELOCIDAD_ESCRITURA = 40; 
+
+        function typeWriter(text, elementId, speed, callback) {
+            let i = 0;
+            const element = document.getElementById(elementId);
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            type();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            typeWriter(text1, "typed-text-1", VELOCIDAD_ESCRITURA, () => {
+                // Muestra el perrito animado en acción
+                document.getElementById("dog-box").style.display = "block";
+                
+                setTimeout(() => {
+                    typeWriter(text2, "typed-text-2", VELOCIDAD_ESCRITURA, () => {
+                        document.getElementById("options-box").style.display = "block";
+                        lanzarFlores();
+                    });
+                }, 1500); // Pausa breve para que el perrito luzca antes del segundo párrafo
+            });
+        });
+
+        function lanzarFlores() {
+            const simbolos = ['🌸', '🌺', '🌹', '🌷', '🌼', '✨'];
+            for (let i = 0; i < 40; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.innerHTML = simbolos[Math.floor(Math.random() * simbolos.length)];
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                petal.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                document.body.appendChild(petal);
+
+                setTimeout(() => {
+                    petal.remove();
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>
